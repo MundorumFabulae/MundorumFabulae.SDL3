@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Examples/" />
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+  </Folder>
+  <Project Path="MundorumFabulae.SDL3.Native/MundorumFabulae.SDL3.Native.csproj" />
+  <Project Path="MundorumFabulae.SDL3.Runtime/MundorumFabulae.SDL3.Runtime.csproj" />
+</Solution>

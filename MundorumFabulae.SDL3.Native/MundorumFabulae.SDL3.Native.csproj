@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <!--
+            CA1401: P/Invokes should not be visible - Suppressed because this library's entire point is to expose P/Invokes.
+            CA1028: Enum storage should be Int32 - Suppressed to ensure that the backing types of enumerations match those of SDL.
+        -->
+        <NoWarn>$(NoWarn);CA1401;CA1028</NoWarn>
+        
+        <!--
+            CS1574: XML comment on 'construct' has syntactically incorrect cref attribute 'name' - Suppressed so that still-missing functions in
+            documentation won't prevent compilation.
+        -->
+        <WarningsNotAsErrors>$(WarningsNotAsErrors);CS1574</WarningsNotAsErrors>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Nuget Properties">
+        <PackageId>MundorumFabulae.SDL3.Native</PackageId>
+        <Version>3.4.4</Version>
+        <Authors>Mundorum Fabulae</Authors>
+        <Description>Low-level C# bindings for SDL 3.</Description>
+        <PackageLicenseExpression>Zlib</PackageLicenseExpression>
+        <PackageTags>SDL;SDL3;native;interop;cross-platform;game;media</PackageTags>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/MundorumFabulae/MundorumFabulae.SDL</RepositoryUrl>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="LICENSE" Pack="true" PackagePath="" />
+        <None Include="README.md" Pack="true" PackagePath="" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\MundorumFabulae.SDL3.Runtime\MundorumFabulae.SDL3.Runtime.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup Label="Assembly Attributes">
+        <AssemblyAttribute Include="System.CLSCompliantAttribute">
+            <_Parameter1>false</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+</Project>
