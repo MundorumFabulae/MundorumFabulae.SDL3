@@ -33,10 +33,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\MundorumFabulae.SDL3.Runtime\MundorumFabulae.SDL3.Runtime.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
     </ItemGroup>
 
