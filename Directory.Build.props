@@ -7,6 +7,7 @@
         <IsAotCompatible>True</IsAotCompatible>
         <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
         <InterceptorsNamespaces>$(InterceptorsNamespaces);Microsoft.Extensions.Configuration.Binder.SourceGeneration</InterceptorsNamespaces>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     </PropertyGroup>
 
     <PropertyGroup Label="Documentation">
