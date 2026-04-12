@@ -15,7 +15,7 @@
         <PackageLicenseExpression>Zlib</PackageLicenseExpression>
         <PackageTags>SDL;SDL3;native;runtime;cross-platform;game;media</PackageTags>
         <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>https://github.com/MundorumFabulae/MundorumFabulae.SDL</RepositoryUrl>
+        <RepositoryUrl>https://github.com/MundorumFabulae/MundorumFabulae.SDL3</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
