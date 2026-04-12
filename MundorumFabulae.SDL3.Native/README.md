@@ -9,8 +9,9 @@ writing code that would look similar to C code.
 
 This library follows the following convention to map SDL's C API to C#:
 
-- **Functions**: Located in the `NativeMethods` static class. The `SDL_` prefix is removed (e.g., `SDL_CreateWindow`
-  becomes `NativeMethods.CreateWindow`). Almost all functions available in the SDL wiki are (planned to be) included,
+- **Functions and Function-like Macros**: Located in the `NativeMethods` static class. The `SDL_` prefix is removed
+  (e.g., `SDL_CreateWindow` becomes `NativeMethods.CreateWindow` and `SDL_VERSIONNUM` becomes
+  `NativeMethods.VERSIONNUM`). Almost all functions available in the SDL wiki are (planned to be) included,
   even those that would technically be useless under C# like threading, file I/O, etc.
   - For functions which take a function pointer as an argument, two overloads are provided: one that takes an unmanaged
     function pointer directly, and one that takes a delegate with a signature matching the function pointer. The
@@ -23,13 +24,11 @@ This library follows the following convention to map SDL's C API to C#:
   - Variadic functions such as `SDL_Log` have their signature modified so that they only accept the formatted string.
     This is passed to the variadic function with `"%s"` as the format string.
   - Functions which take a `va_list` are not included as P/Invoke does not support them.
-- **Function-like Macros**: Located in the `MACRO` static class (all capital letters to match the naming convention for 
-  macros). The `SDL_` prefix is removed (e.g., `SDL_VERSIONNUM(major, minor, patch)` becomes
-  `MACRO.VERSIONNUM(major, minor, patch)`).
-  - Check the documentation for each wrapped macro for the rationale behind their return types.
 - **Enums and Flags**: Mapped to C# enums. Their backing type is set to whatever type is used in the C API.
-- **Pointers/Handles**: Mapped to C# structs for type-safety. Comparison operators between the struct and the underlying
-  type are provided to allow code similar to how they would be done in C.
+- **Pointers/Handles**: Mapped to C# record structs for type-safety. Comparison operators between the struct and the
+  underlying type are provided to allow code similar to how they would be done in C.
+  - Implicit conversion to `bool` is **NOT** provided, even though it is a common pattern in C to check for a null
+    pointer.
   - Wrapped pointers/handles do **NOT** implement IDisposable. They must be treated as an unmanaged resource and cleaned
     manually much like how it would be done in C.
 - **Documentation**: Documentation for functions, types, etc. is recreated from the official SDL3 documentation on a
@@ -66,9 +65,9 @@ if (!NativeMethods.Init(Subsystems.Video | Subsystems.Events))
 NativeMethods.LogDebug("SDL initialized successfully!");
 
 int version = NativeMethods.GetVersion();
-int major = MACROS.VERSIONNUM_MAJOR(version);
-int minor = MACROS.VERSIONNUM_MINOR(version);
-int patch = MACROS.VERSIONNUM_PATCH(version);
+int major = NativeMethods.VERSIONNUM_MAJOR(version);
+int minor = NativeMethods.VERSIONNUM_MINOR(version);
+int patch = NativeMethods.VERSIONNUM_PATCH(version);
 NativeMethods.LogInfo($"Using SDL3 {major}.{minor}.{patch}");
 
 // Your application logic goes here...
