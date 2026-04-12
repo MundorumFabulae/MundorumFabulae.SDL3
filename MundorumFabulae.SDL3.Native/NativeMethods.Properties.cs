@@ -456,15 +456,15 @@ public static partial class NativeMethods
 		nint userdata
 	);
 	
-	private sealed record class CleanupCallbackWrappedState(CleanupPropertyCallback Callback, nint Userdata);
+	private sealed record class CleanupCallbackWrappedState(CleanupPropertyCallback? Callback, nint Userdata);
 
 	[UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
 	private static void CleanupCallbackWrapper(nint userdata, nint value)
 	{
 		using var state = GCHandle<CleanupCallbackWrappedState>.FromIntPtr(userdata);
-		(CleanupPropertyCallback callback, var passedUserdata) = state.Target;
+		(CleanupPropertyCallback? callback, var passedUserdata) = state.Target;
 		
-		callback.Invoke(passedUserdata, value);
+		callback?.Invoke(passedUserdata, value);
 	}
 
 	/// <summary>
@@ -493,12 +493,10 @@ public static partial class NativeMethods
 		PropertiesID props,
 		string name,
 		nint value,
-		CleanupPropertyCallback callback,
+		CleanupPropertyCallback? callback,
 		nint userdata
 	)
 	{
-		ArgumentNullException.ThrowIfNull(callback);
-
 		var wrappedState = new CleanupCallbackWrappedState(callback, userdata);
 
 		var wrappedStateHandle = new GCHandle<CleanupCallbackWrappedState>(wrappedState);
@@ -509,7 +507,11 @@ public static partial class NativeMethods
 
 			unsafe {
 				var result = SetPointerPropertyWithCleanup(props, name, value, &CleanupCallbackWrapper, statePtr);
-				handlePassed = true;
+				
+				// If we returned from the native function, we can safely assume that SDL has taken ownership of the
+				// handle wrapper. As such, we do not need to dispose of it as it will be called even if the native
+				// function returned a failure.
+				handlePassed = value != nint.Zero;
 				return result;
 			}
 		}
